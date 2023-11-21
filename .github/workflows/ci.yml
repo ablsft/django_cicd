@@ -58,3 +58,16 @@ jobs:
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
           DB_HOST: ${{ env.DB_HOST }}
           DB_PORT: ${{ env.DB_PORT }}
+
+      - name: Деплой
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          # script: cd /home/exel/django_cicd && git pull origin cicd && sudo systemctl restart gunicorn
+          # script: |
+          #   cd /home/exel/django_cicd
+          #   git pull origin cicd
+          #   sudo systemctl restart gunicorn
+          script: expect /home/exel/django_cicd/pull.exp
